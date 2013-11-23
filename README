@@ -1,0 +1,115 @@
+INTRODUCTION
+   CIP is a CORBA IDL Parser written in Java
+
+HISTORY
+   Having worked on C++ and Java projects that used CORBA and suffered
+   the vagaries of various implementations I decided that if I had to
+   use it again I'd want more control over the POA and BOA
+   implementations.  The first step is to control the stub generation
+   and that required an CORBA IDL parser.  So CIP was born.
+
+   Implementation of CIP took 54 hours 19 minutes between 1999-03-10
+   and 19930-03-26.  Implementation stopped when it reached the
+   proof-of-concept stage.  It was never subsequently used as CORBA
+   mostly died out.
+
+   The only changes since that date were on 2013-11-23 to update the
+   add this README and a LICENSE.
+
+   Development was mostly done on a Pentium running Windows NT since
+   my Linux box was too small to install and run the Sun JDK.
+
+BUILD
+   To build the parser do :-
+
+      $ make all
+
+   It expects that you hava some flavour of JDK installed and javac in your path.
+
+RUN
+   There is a basic test harness for the parser in cip/parsertest/Main.java.  For example,
+   the following parses and detects an error in foo-missing-interface-name.idl :-
+
+      $ java -classpath . cip.parsertest.Main tests/foo-missing-interface-name.idl 
+      error expected_interface_id 2 12 lexeme 61
+      Exception in thread "main" java.lang.Exception
+              at cip.parsertest.ParserErrorHandler.end(ParserErrorHandler.java:33)
+              at cip.parser.Parser.parseInterface(Parser.java:1251)
+              at cip.parser.Parser.parseDefinitions(Parser.java:1957)
+              at cip.parser.Parser.parseModule(Parser.java:1263)
+              at cip.parser.Parser.parseDefinitions(Parser.java:1960)
+              at cip.parser.Parser.parse(Parser.java:2008)
+              at cip.parsertest.Main.main(Main.java:24)
+      $ 
+
+   If you want to pretty-print / re-format some IDL there is a pretty-printer in 
+   cip/byteinputlexerbyteinputlexerpp/Main.java.  It defaults to output in K&R style so :-
+
+      $ cat tests/foo.idl
+      module m_foo {
+        interface i_foo {
+          readonly attribute long x;
+        };
+      };
+
+    becomes :-
+
+       $ java -classpath . cip.byteinputlexerbyteinputlexerpp.Main tests/foo.idl 
+       module m_foo {
+            interface i_foo {
+                 readonly attribute long x;
+            };
+       };
+       $ 
+
+
+BIBLIOGRAPHY
+   Design Patterns: Elements of Reusable Object-Oriented Software
+   Erich Gamma, Richard Helm, Ralph Johnson and John Vlissides
+   Addison-Wesley 1995
+
+    [lcc] A Retargetable C Compiler: Design and Implementation
+   Christopher Fraser and David Hanson
+   Benjamin/Cummings 1995
+
+   The C++ Programming Language
+   Bjarne Stroustrup
+   Addison-Wesley 1997
+
+     An appendix contains the grammar for the language and the lexical
+     portions of it were used until I obtained sections of the CORBA
+     2.2 specification.
+
+   [idl-v2.2] Common Object Request Broker: Achitecture and Specification
+   http://www.omg.org/spec/CORBA/2.2/PDF
+
+     Chapter 3 contains the IDL syntax.
+
+     .char.format.codes: Table 3-5 lists all the formatting characters
+      and their required codes.
+
+     .char.escapes: The required escapes are given in table 3-9 on
+      page 3-8.  They are: \n \t \v \b \r \f \a \\ \? \' \" \ooo
+      \xhhh.  Anything else is undefined.
+
+     .id.equiv: In section 3.2.3 it states that :-
+
+       Identifiers that differ only in case collide and yield a compilation error.
+       an identifier for a definition must be spelled consistently (with respect to
+       case) throughout a specification.
+
+       When comparing two identifiers to see if they collide:
+
+         * Upper- and lower-case letters are treated as the same letter.  Table 3-2
+           on page 3-3 defines the equivalence mapping of upper- and lower-case
+           letters.
+         * The comparison does not take into account equivalences between digraphs
+           and pairs of letters or equivalences between accented and non-accented
+           letters.
+         * All characters are significant.
+
+
+AUTHOR
+   Ninetes Retro <nineties-retro@mail.com>
+
+   9b58e218eaa138cbbb512d05ec34fe9dea58d73991064bd3944247d409845d68

@@ -1,0 +1,34 @@
+   // test idl
+    
+const char uglug = '\n'; const unsigned long long foo = -10|-3*30;
+typedef sequence<sequence<long> > disk;
+exception oops {}; exception oops { long x;};
+
+module foo {
+  typedef unsigned long foo[10][2*foo];
+  struct point {
+    long x;
+    long y;
+  };
+  enum bill { nobby, burble };
+  interface bar : a, b::c::d, c {
+    readonly attribute long bob;
+    attribute unsigned long long bob, jim;
+    long nuke(in long x, inout long y);
+    void nuke(in long x) raises (oops) context ("hmm", "poo");
+  };
+  union UNION_OF_CHAR_AND_ARITHMETIC
+  switch(UNION_DISCRIMINATOR) {
+  case dChar: char c;
+  case dShort: short s;
+  case dLong: long l;
+  case dFloat: float f;
+  case dDouble: double d;
+  default: octet v[8];
+  };
+};
+
+any attribute boolean case char const context default double enum
+exception float fixed in inout interface long module octet oneway out
+raises readonly sequence short string struct switch typedef unsigned
+union void wchar wstring FALSE Object TRUE

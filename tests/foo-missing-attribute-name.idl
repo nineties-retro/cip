@@ -1,0 +1,5 @@
+module m_foo {
+  interface i_foo {
+    readonly attribute long;
+  };
+};
